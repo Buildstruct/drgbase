@@ -21,6 +21,9 @@ function DrGBase.AddWeapon(SWEP)
 end
 
 hook.Add("PopulateDrGBaseSpawnmenu", "AddDrGBaseWeapons", function(pnlContent, tree, node)
+	if CLIENT then 
+		if not LocalPlayer():IsAdmin() then return end
+	end
 	local list = list.Get("DrGBaseWeapons")
 	local categories = {}
 	for class, ent in pairs(list) do

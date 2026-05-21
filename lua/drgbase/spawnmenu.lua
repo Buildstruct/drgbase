@@ -12,6 +12,9 @@ DrGBase.SetIcon("DrGBase", DrGBase.Icon)
 -- Creation Tab --
 
 spawnmenu.AddCreationTab("DrGBase", function()
+	if CLIENT then 
+		if not LocalPlayer():IsAdmin() then return end
+	end
   local ctrl = vgui.Create("SpawnmenuContentPanel")
   ctrl:EnableSearch("drgbase", "PopulateDrGBaseSpawnmenu")
   ctrl:CallPopulateHook("PopulateDrGBaseSpawnmenu")
@@ -60,10 +63,16 @@ end, "drgbase")
 -- Tool Tab --
 
 hook.Add("AddToolMenuTabs", "DrGBaseToolMenu", function()
+	if CLIENT then 
+		if not LocalPlayer():IsAdmin() then return end
+	end
   spawnmenu.AddToolTab("DrGBase", "DrGBase", DrGBase.Icon)
 end)
 
 hook.Add("PopulateToolMenu", "DrGBaseToolMenu", function()
+	if CLIENT then 
+		if not LocalPlayer():IsAdmin() then return end
+	end
   -- Main Menu --
   --[[spawnmenu.AddToolMenuOption("DrGBase", "Main Menu", "drgbase_mm_about", "About", "", "", function(panel)
     panel:ClearControls()

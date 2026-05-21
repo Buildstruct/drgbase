@@ -20,6 +20,10 @@ function DrGBase.AddSpawner(ENT)
 end
 
 hook.Add("PopulateDrGBaseSpawnmenu", "AddDrGBaseSpawners", function(pnlContent, tree, node)
+	if CLIENT then 
+		if not LocalPlayer():IsAdmin() then return end
+	end
+	
 	local list = list.Get("DrGBaseSpawners")
 	local categories = {}
 	for class, ent in pairs(list) do
