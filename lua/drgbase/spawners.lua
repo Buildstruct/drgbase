@@ -19,49 +19,6 @@ function DrGBase.AddSpawner(ENT)
 	return true
 end
 
-hook.Add("PopulateDrGBaseSpawnmenu", "AddDrGBaseSpawners", function(pnlContent, tree, node)
-	if CLIENT then 
-		if not LocalPlayer():IsAdmin() then return end
-	end
-	
-	local list = list.Get("DrGBaseSpawners")
-	local categories = {}
-	for class, ent in pairs(list) do
-		local category = ent.Category or "Other"
-		local tab = categories[category] or {}
-		tab[class] = ent
-		categories[category] = tab
-	end
-	local nextbotsTree = tree:AddNode("Spawners", "icon16/box.png")
-	for categoryName, category in SortedPairs(categories) do
-		local icon = DrGBase.GetIcon(categoryName) or "icon16/box.png"
-		if categoryName == "DrGBase" then icon = DrGBase.Icon end
-		local node = nextbotsTree:AddNode(categoryName, icon)
-		node.DoPopulate = function(self)
-			if self.PropPanel then return end
-			self.PropPanel = vgui.Create("ContentContainer", pnlContent)
-			self.PropPanel:SetVisible(false)
-			self.PropPanel:SetTriggerSpawnlistChange(false)
-			for class, ent in SortedPairsByMemberValue(category, "Name") do
-				spawnmenu.CreateContentIcon("npc", self.PropPanel, {
-					nicename	= ent.Name or class,
-					spawnname	= class,
-					material = "entities/"..class..".png",
-					admin	= ent.AdminOnly or false
-				})
-			end
-		end
-		node.DoClick = function(self)
-			self:DoPopulate()
-			pnlContent:SwitchPanel(self.PropPanel)
-		end
-	end
-	local firstNode = tree:Root():GetChildNode(0)
-	if IsValid(firstNode) then
-		firstNode:InternalDoClick()
-	end
-end)
-
 if SERVER then
 
 	function DrGBase.CreateSpawner(pos, tospawn, radius, quantity, class)
