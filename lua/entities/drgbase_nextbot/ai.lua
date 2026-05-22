@@ -83,6 +83,7 @@ if SERVER then
 	end
 
 	function ENT:SetEnemy(enemy)
+		if not enemy:AS_IsInCombat() then return end
 		self:SetNW2Entity("DrGBaseEnemy", enemy)
 		self:SetNW2Bool("DrGBaseNemesis", false)
 	end
