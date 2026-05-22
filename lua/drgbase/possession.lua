@@ -2,25 +2,27 @@
 local PossessionEnabled = CreateConVar("drgbase_possession_enable", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED})
 local EnableLockOn = CreateConVar("drgbase_possession_allow_lockon", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED})
 
-if LocalPlayer():IsAdmin() then
-	properties.Add("drgbasepossess", {
-		MenuLabel = "Possess",
-		Order = 1000,
-		MenuIcon = "drgbase/icon16.png",
-		Filter = function(self, ent, ply)
-			if not ent.IsDrGNextbot then return false end
-			if not PossessionEnabled:GetBool() then return false end
-			if not ent.PossessionPrompt then return false end
-			if not ent:IsPossessionEnabled() then return false end
-			return true
-		end,
-		Action = function(self, ent)
-			net.Start("DrGBaseNextbotPossess")
-			net.WriteEntity(ent)
-			net.SendToServer()
-		end
-	})
-end
+properties.Add("drgbasepossess", {
+	MenuLabel = "Possess",
+	Order = 1000,
+	MenuIcon = "drgbase/icon16.png",
+	Filter = function(self, ent, ply)
+		if not ent.IsDrGNextbot then return false end
+		if not PossessionEnabled:GetBool() then return false end
+		if not ent.PossessionPrompt then return false end
+		if not ent:IsPossessionEnabled() then return false end
+		return true
+	end,
+	Action = function(self, ent)
+		net.Start("DrGBaseNextbotPossess")
+		net.WriteEntity(ent)
+		net.SendToServer()
+	end
+})
+
+hook.Add("CanProperty", "block posses for non-admins", function(ply, property, ent)
+	if property == "drgbasepossess" and not ply:IsAdmin() then return false end
+end)
 
 hook.Add("StartCommand", "DrGBasePossessionStartCommand", function(ply, cmd)
 	if not isfunction(ply.DrG_IsPossessing) then return end
