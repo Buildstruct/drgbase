@@ -88,7 +88,7 @@ if SERVER then
 		self:SetNW2Bool("DrGBaseNemesis", false)
 	end
 	function ENT:SetNemesis(nemesis)
-		if not nemesis:AS_IsInCombat() then return end
+		if IsValid(nemesis) and not nemesis:AS_IsInCombat() then return end
 		self:SetNW2Entity("DrGBaseEnemy", nemesis)
 		self:SetNW2Bool("DrGBaseNemesis", true)
 	end
@@ -129,7 +129,7 @@ if SERVER then
 	end
 	function ENT:FetchEnemy()
 		if self:IsPossessed() then return NULL end
-		if self:GetEnemy():AS_IsInCombat() then self:SetEnemy(nil); return NULL end
+		if self:GetEnemy():AS_IsInCombat() then self:SetEnemy(NULL); return NULL end
 		local current = NULL
 		for enemy in self:HostileIterator(true) do
 			if not IsValid(current) or CompareEnemies(self, enemy, current) then
