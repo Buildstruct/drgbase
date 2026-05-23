@@ -84,18 +84,11 @@ if SERVER then
 
 	function ENT:SetEnemy(enemy)
 		if not enemy:AS_IsInCombat() then return end
-		if enemy:InVehicle() then
-			local root = enemy:GetVehicle()
-			while IsValid(root:GetParent()) do
-				root = root:GetParent()
-			end
-
-			enemy = root
-		end
 		self:SetNW2Entity("DrGBaseEnemy", enemy)
 		self:SetNW2Bool("DrGBaseNemesis", false)
 	end
 	function ENT:SetNemesis(nemesis)
+		if not nemesis:AS_IsInCombat() then return end
 		self:SetNW2Entity("DrGBaseEnemy", nemesis)
 		self:SetNW2Bool("DrGBaseNemesis", true)
 	end
