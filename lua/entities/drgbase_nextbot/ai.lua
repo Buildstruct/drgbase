@@ -103,12 +103,6 @@ if SERVER then
 	function ENT:UpdateEnemy()
 		local enemy
 		if not self:IsPossessed() then
-			if not self:GetEnemy():AS_IsInCombat() then
-				self:SetNW2Entity("DrGBaseEnemy", nil)
-				self:SetNW2Entity("DrGBaseNemesis", false)
-				return NULL 
-			end
-			
 			if self:HasNemesis() then return self:GetNemesis() end
 			enemy = self:OnUpdateEnemy()
 			if enemy == nil then return self:GetEnemy() end
