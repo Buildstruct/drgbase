@@ -129,7 +129,7 @@ if SERVER then
 	end
 	function ENT:FetchEnemy()
 		if self:IsPossessed() then return NULL end
-		if self:GetEnemy():AS_IsInCombat() then return NULL end
+		if self:GetEnemy():AS_IsInCombat() then self:SetEnemy(nil); return NULL end
 		local current = NULL
 		for enemy in self:HostileIterator(true) do
 			if not IsValid(current) or CompareEnemies(self, enemy, current) then
