@@ -129,10 +129,11 @@ if SERVER then
 		if self:IsPossessed() then return NULL end
 		local current = NULL
 		for enemy in self:HostileIterator(true) do
-			if not IsValid(current) or not current:AS_IsInCombat() or not enemy:AS_IsInCombat() or CompareEnemies(self, enemy, current) then
+			if not IsValid(current) or not current:AS_IsInCombat() or CompareEnemies(self, enemy, current) then
 				current = enemy
 			end
 		end
+		if not current:AS_IsInCombat() then return nil end
 		return current
 	end
 
