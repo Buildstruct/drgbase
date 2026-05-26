@@ -125,6 +125,8 @@ if SERVER then
 		elseif prio2 > prio1 then return false
 		else return self:GetRangeSquaredTo(ent1) < self:GetRangeSquaredTo(ent2) end
 	end
+	
+	print("DrGBase Nextbot AI LOADED!!!!!!")
 	function ENT:FetchEnemy()
 		if self:IsPossessed() then return NULL end
 		local current = NULL
