@@ -125,18 +125,12 @@ if SERVER then
 		elseif prio2 > prio1 then return false
 		else return self:GetRangeSquaredTo(ent1) < self:GetRangeSquaredTo(ent2) end
 	end
-	
-	print("DrGBase Nextbot AI LOADED!!!!!!")
 	function ENT:FetchEnemy()
 		if self:IsPossessed() then return NULL end
 		local current = NULL
 		for enemy in self:HostileIterator(true) do
-			if enemy:AS_IsInCombat() then continue end
-			if not IsValid(current) then 
-				current = enemy 
-			elseif current:AS_IsInCombat() then
-				current = enemy
-			elseif CompareEnemies(self, enemy, current) then
+			if enemy:AS_IsInCombat() or current:AS_IsInCombat() then current = nil; continue end
+			if not IsValid(current) or CompareEnemies(self, enemy, current) then
 				current = enemy
 			end
 		end
