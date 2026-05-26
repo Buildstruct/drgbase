@@ -130,7 +130,11 @@ if SERVER then
 		local current = NULL
 		for enemy in self:HostileIterator(true) do
 			if enemy:AS_IsInCombat() then continue end
-			if not IsValid(current) or current:AS_IsInCombat() or CompareEnemies(self, enemy, current) then
+			if not IsValid(current) then 
+				current = enemy 
+			elseif current:AS_IsInCombat() then
+				current = enemy
+			elseif CompareEnemies(self, enemy, current) then
 				current = enemy
 			end
 		end
